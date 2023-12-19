@@ -123,4 +123,5 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v3
-          artifact_name: ifb-staff-artifact
+          with:
+            artifact_name: ifb-staff-artifact
