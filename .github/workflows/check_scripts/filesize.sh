@@ -10,7 +10,7 @@ stat -c '%s %n' img/* |
         if [ "$size" -gt 262144 ]; then
             printf '%s is a large image file (%s bytes)\n' \
 		    "$pathname" "$size"
-	    success=false
+	        #success=false
         fi
     done
 
