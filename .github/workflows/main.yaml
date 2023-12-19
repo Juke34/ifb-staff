@@ -103,6 +103,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
+          name: my-artifact
           path: |
             index.html
             index_files 
@@ -117,6 +118,12 @@ jobs:
     runs-on: ubuntu-22.04
     needs: build
     steps:
+      - uses: actions/checkout@master
+
+      - uses: actions/download-artifact@master
+        with:
+          name: my-artifact
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v3
