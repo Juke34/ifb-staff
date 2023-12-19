@@ -99,8 +99,15 @@ jobs:
           Rscript -e "rmarkdown::render('index.Rmd')"
           echo "Folder contents at $(pwd):"
           ls -lh
+
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-artifact@v3
+        with:
+          path: |
+            index.html
+            index_files 
+            assets 
+            scaled 
 
   # Deployment job
   deploy:
