@@ -31,7 +31,7 @@ fa$attachment <- "fonts/fontawesome-webfont.ttf"
 htmltools::tagList(fa)
 
 # read data
-f <- list.files(".",pattern="*.yaml",full.names=T)
+f <- list.files("staff/",pattern="*.yaml",full.names=T)
 f <- f[!grepl("TEMPLATE",f)]
 f1 <- lapply(f,read_yaml)
 
