@@ -6,7 +6,7 @@ awk '/^[[:blank:]]*image: / {
     imgpath = FILENAME
     sub("[^/]*$", "img/" $2, imgpath)
     print FILENAME, imgpath
-}' ./*.yml alumni/*.yml |
+}' ./*.yaml |
 {
     success=true
 

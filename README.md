@@ -25,8 +25,8 @@ The linux environment, dependencies, R and necessary R packages are installed or
 
 Entries are located in the `staff` folder.
 In order to add yourself to the staff pages etc., create a file
-`firstname-lastname.yml` and add your information.  Use the
-`TEMPLATE.yml` file as a starting point and look at the existing YAML
+`firstname-lastname.yaml` and add your information.  Use the
+`TEMPLATE.yaml` file as a starting point and look at the existing YAML
 files to see how you may fill it out.
 
 * Note that you can use markdown syntax for the `bio:` entry, e.g. for links.

@@ -6,7 +6,7 @@
 #
 # The line saying "---" should be the first line of your file.
 # No line should be longer than 80 characters.
-# Your file should be called "<firstname>-<lastname>.yml".
+# Your file should be called "<firstname>-<lastname>.yaml".
 ---
 #
 # Your real name, the exact way that you want it displayed.

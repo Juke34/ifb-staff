@@ -17,9 +17,9 @@ git diff --name-only -z HEAD origin/main -- |
         if [[ $pathname == .github/* ]]; then
             continue
         fi
-        # Check that filename extension is not .yaml
-        if [[ $pathname == *.yaml ]]; then
-            printf 'Expecting .yml extension, not .yaml: %s\n' \
+        # Check that filename extension is not .yml
+        if [[ $pathname == *.yml ]]; then
+            printf 'Expecting .yaml extension, not .yml: %s\n' \
 		    "$pathname" >&2
             success=false
         fi

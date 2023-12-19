@@ -2,7 +2,7 @@
 
 cd "$( git rev-parse --show-toplevel )" || exit
 
-stat -c '%s %n' img/* alumni/img/* |
+stat -c '%s %n' img/* |
 {
     success=true
 

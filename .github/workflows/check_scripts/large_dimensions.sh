@@ -2,7 +2,7 @@
 
 cd "$( git rev-parse --show-toplevel )" || exit
 
-identify -format '%w %h %M\n' img/* alumni/img/* |
+identify -format '%w %h %M\n' img/* |
 {
     success=true
 
