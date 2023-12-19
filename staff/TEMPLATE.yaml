@@ -57,7 +57,7 @@ homepage:
 # Use "bibtex:" only if you have a separate BibTeX file in the
 # "publications" subdirectory.
 #
-bibtex: TEMPLATE.bib
+#bibtex: TEMPLATE.bib
 #
 # If you have an ORCID ID ("NNNN-NNNN-NNNN-NNNN")
 #
