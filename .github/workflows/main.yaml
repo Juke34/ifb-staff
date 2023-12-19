@@ -1,7 +1,5 @@
 name: check, build and deploy
 
-runs-on: ubuntu-22.04
-
 on:
   push:
     branches:
@@ -18,7 +16,7 @@ concurrency:
 jobs:
 
   yaml_checks:
-   
+    runs-on: ubuntu-22.04
     steps:
       - name: Get the code
         uses: actions/checkout@v2
@@ -35,7 +33,7 @@ jobs:
               exit "$fail"'
 
   build:
-    
+    runs-on: ubuntu-22.04
     needs: yaml_checks
 
     steps:
@@ -129,7 +127,7 @@ jobs:
 
   # Deployment job
   deploy:
-    
+    runs-on: ubuntu-22.04
     needs: build
 
     permissions:
