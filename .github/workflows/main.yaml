@@ -27,7 +27,7 @@ jobs:
         id: cache-rp
         uses: actions/cache@v3
         with:
-          path: "/home/runner/work/_temp/Library"
+          path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-cache-rp
 
       - name: Install R dependencies
@@ -85,14 +85,3 @@ jobs:
           echo "Folder contents at $(pwd):"
           ls -lh
 
-
-      - name: gh-pages, add contents, push
-        run: |
-          # Copy repo files to gh-pages
-          cp index.html .
-          cp -R index_files .
-          cp -R assets .
-          cp -R scaled .
-
-          echo "Folder contents at $(pwd):"
-          ls -lh

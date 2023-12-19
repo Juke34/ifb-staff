@@ -32,6 +32,7 @@ htmltools::tagList(fa)
 
 # read data
 f <- list.files("staff/",pattern="*.yaml",full.names=T)
+# skip template
 f <- f[!grepl("TEMPLATE",f)]
 f1 <- lapply(f,read_yaml)
 
