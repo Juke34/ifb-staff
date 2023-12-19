@@ -96,7 +96,7 @@ jobs:
 
           for i in img/*g
             do
-              fname=$(basename $i | sed 's/\(^[a-z|-]\+\)\(.*$\)/\1.png/g')
+              fname=$(basename $i | sed 's/\(^[a-z0-9|-]\+\)\(.*$\)/\1.png/g')
               convert $i  -set option:distort:viewport "$viewport" -filter point -distort SRT 0 +repage -adaptive-resize 100x100 scaled/${fname}
               convert -size 100x100 xc:none -fill scaled/${fname} -draw "circle 50,50 50,1" scaled/${fname}
             done
