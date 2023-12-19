@@ -12,13 +12,15 @@ email: jacques.dainat@ird.fr
 image: jacques-dainat.jpg
 role: Bioinformatician
 keywords:
-  - IRD
-  - SouthGreen
-  - iTrop
+  - genome annotation
+  - nextflow
+  - conda
+  - git
   - high-performance computing
 type: staff
 category:
   - software
+  - training
   - genomics
 phone: +33 (0)00 00 00 00
 city:
