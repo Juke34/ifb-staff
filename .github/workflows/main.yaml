@@ -86,21 +86,8 @@ jobs:
           ls -lh
 
 
-      - name: Pull staff-finder gh-pages, add contents, push
+      - name: gh-pages, add contents, push
         run: |
-          # Clone gh-pages branch
-          git clone "https://${{ secrets.TOKEN }}@github.com/NBISweden/staff-finder.git" --branch gh-pages --single-branch stafffinder
-
-          cd stafffinder
-          git config --global user.email "do_not_email@example.com"
-          git config --global user.name "gh_action"
-
-          echo "Folder contents at $(pwd):"
-          ls -lh
-
-          git rm -r .
-          git commit -m "Old files deleted."
-
           # Copy repo files to gh-pages
           cp index.html .
           cp -R index_files .
@@ -109,9 +96,3 @@ jobs:
 
           echo "Folder contents at $(pwd):"
           ls -lh
-
-          # Git commit and push changes back
-          git add .
-          git commit -m "Updated contents at $(date +%Y%m%d-%H%M%S)"
-          git remote show origin
-          git push origin
