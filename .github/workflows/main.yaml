@@ -19,7 +19,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  rmd-render-job:
+  build:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
@@ -99,4 +99,20 @@ jobs:
           Rscript -e "rmarkdown::render('index.Rmd')"
           echo "Folder contents at $(pwd):"
           ls -lh
+        with:
+          source: ./
+          destination: ./_site
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
 
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-22.04
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v3
