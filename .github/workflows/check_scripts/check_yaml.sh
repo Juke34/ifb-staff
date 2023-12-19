@@ -2,4 +2,4 @@
 
 cd "$( git rev-parse --show-toplevel )" || exit
 
-.github/workflows/check_scripts/check_yaml.py ./*.yml alumni/*.yml
+.github/workflows/check_scripts/check_yaml.py staff/*.yml alumni/*.yml
