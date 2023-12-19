@@ -97,18 +97,18 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
+          name: ifb-staff-artifact
           path: |
             index.html
             index_files 
             assets 
             scaled 
 
-  # Deploy job
+  # Deployment job
   deploy:
-    # Add a dependency to the build job
+    runs-on: ubuntu-22.04
     needs: build
 
-    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
       pages: write      # to deploy to Pages
       id-token: write   # to verify the deployment originates from an appropriate source
@@ -118,9 +118,15 @@ jobs:
     #  name: github-pages
     #  url: ${{ steps.deployment.outputs.page_url }}
 
-    # Specify runner + deployment step
-    runs-on: ubuntu-latest
+
     steps:
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: ifb-staff-artifact
+
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v3 # or specific "vX.X.X" version tag for this action
+        uses: actions/deploy-pages@v3
+          with:
+            artifact_name: ifb-staff-artifact
