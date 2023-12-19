@@ -126,6 +126,11 @@ jobs:
         with:
           name: ifb-staff-artifact
 
-      - uses: actions/deploy-pages@v3
-        with:
-          artifact_name: ifb-staff-artifact
+     # - uses: actions/deploy-pages@v3
+     #   with:
+     #     artifact_name: ifb-staff-artifact
+      - name: GitHub Pages action
+      uses: peaceiris/actions-gh-pages@v3.9.3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: .
