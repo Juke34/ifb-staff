@@ -1,12 +1,17 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import argparse
 import re
 import sys
-
 import yaml
 import pathlib
 
+def validate_category(d,f):
+    for key in d:
+        if key.lower() != key:
+           print (key + " must be lower case!")
+           return False
+    return True 
 
 def check_bibtex_file(d, f):
     p = pathlib.Path(f).parent / 'publications'
@@ -36,7 +41,7 @@ def validate_url(d, f):
 
 # Just add checks here, key should be error message, value is a function that returns true if everything is fine.
 checks = {
-    'category has to be all lower case': lambda x, _: x['category'].lower() == x['category'],
+    'category has to be all lower case': validate_category,
     'invalid orcid': validate_orcid,
     'invalid homepage': validate_url,
     'bibtex file missing': check_bibtex_file
@@ -63,6 +68,7 @@ def run():
 
     num_errors = 0
     for file in args.files:
+        print ("check " + file)
         num_errors += check_file(file)
 
     if num_errors == 0:
