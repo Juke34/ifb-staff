@@ -2,4 +2,4 @@
 
 cd "$( git rev-parse --show-toplevel )" || exit
 
-yamllint ./*.yaml
+yamllint staff/*.yaml
