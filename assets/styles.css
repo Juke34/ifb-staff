@@ -1,0 +1,103 @@
+/* CSS style */
+/* 2020 Roy Francis */
+
+a {
+  color: #A7C947;
+  text-decoration: none;
+  outline: 0;
+}
+
+a:focus, a:hover {
+  color: #A7C947;
+  text-decoration: underline;
+  outline: 0;
+}
+
+h1.title {
+  font-size: 32px;
+}
+
+.logo {
+  position:relative;
+  height:30px;
+  float:right;
+  top:-64px;
+  margin-top:21px;
+  margin-bottom:10.5px;
+  margin-right:15px;
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+  background-color: #d5d8dc;
+  color: #2c3e50;
+}
+
+.pagination > .disabled > span, .pagination > .disabled > span:hover, .pagination > .disabled > span:focus, .pagination > .disabled > a, .pagination > .disabled > a:hover, .pagination > .disabled > a:focus, .pagination > li > a, .pagination > li > span {
+  background-color: white;
+  color: #2c3e50;
+}
+
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover
+{
+  background-color: #eaecee;
+  color: #2c3e50;
+}
+
+.pagination > .active > a:hover
+{
+  background-color: #d5d8dc;
+  color: #2c3e50;
+}
+
+table.dataTable span.highlight {
+  background-color: #ABB2B9;
+}
+
+table a {
+  color: #2c3e50;
+}
+
+table a:hover  {
+  color: #2c3e50;
+}
+
+table td, table th {
+  vertical-align: middle !important;
+}
+
+.profile {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  position: relative;
+  cursor: default;
+  transition: all 0.2s ease-in-out;
+}
+
+.profile:hover {
+  filter: brightness(110%);
+  border: 3px solid white;
+}
+
+.table-staff {
+  padding: 25px;
+  margin: 5px;
+  border-radius: 4px;
+  -webkit-box-shadow: 1px 1px 6px #E0E0E0;
+  -moz-box-shadow: 1px 1px 6px #E0E0E0;
+  box-shadow:1px 1px 6px #E0E0E0;
+}
+
+.color-tag {
+  color: white;
+  font-weight: bold;
+  border-radius: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
