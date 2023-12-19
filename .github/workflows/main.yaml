@@ -126,9 +126,6 @@ jobs:
         with:
           name: ifb-staff-artifact
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-
       - uses: actions/deploy-pages@v3
         with:
           artifact_name: ifb-staff-artifact
