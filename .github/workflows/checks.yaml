@@ -7,6 +7,7 @@ on:
       - "staff/**.yml"
       - "staff/**.yaml"
   pull_request:
+    paths:
       - "staff/**.yml"
       - "staff/**.yaml"
 
