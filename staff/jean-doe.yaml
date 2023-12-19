@@ -1,0 +1,22 @@
+---
+staffname: Jean Doe
+active: true
+bio:
+  I'm born... I did... I like...
+
+
+email: jean.doe@cnrs.fr
+image: thispersondoesnotexist2.jpg
+role: Bioinformatician
+keywords:
+  - training
+  - coordinator
+type: IFB-core
+category:
+  - managment
+phone: +33 (0)00 00 00 00
+city:
+  - Paris
+affiliation: INRAe
+workplace: Cancer Institut for second life 
+facility: Sorbone

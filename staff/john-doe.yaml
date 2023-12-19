@@ -1,0 +1,21 @@
+---
+staffname: John Doe
+active: true
+bio:
+  I'm born... I did... I like...
+
+
+email: john.doe@cnrs.fr
+image: thispersondoesnotexist1.jpg
+role: Bioinformatician
+keywords:
+  - high-performance computing
+type: IFB-core
+category:
+  - proteomics
+phone: +33 (0)00 00 00 00
+city:
+  - Toulouse
+affiliation: CNRS
+workplace: Institut for life
+facility: MIGALE
