@@ -1,10 +1,11 @@
 ---
 
 name: Perform some sanity checks
-on: [push, pull_request_target]  # yamllint disable-line rule:truthy
+on: push
   paths:
     - "staff/**.yml"
     - "staff/**.yaml"
+on: pull_request_target
 
 
 jobs:
