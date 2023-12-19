@@ -1,4 +1,10 @@
-name: check build and deploy
+name: build and deploy
+on:
+  push:
+    branches:
+      - main
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
@@ -10,15 +16,7 @@ jobs:
 
   yaml_checks:
     runs-on: ubuntu-latest
-    on: 
-      push:
-        paths:
-          - "staff/**.yaml"
-      pull_request:
-        paths:
-          - "staff/**.yaml"
-      # Allows you to run this workflow manually from the Actions tab
-      workflow_dispatch:
+    
     steps:
       - name: Get the code
         uses: actions/checkout@v2
@@ -36,12 +34,6 @@ jobs:
 
   build:
     runs-on: ubuntu-22.04
-    on:
-      push:
-        branches:
-          - main
-      # Allows you to run this workflow manually from the Actions tab
-      workflow_dispatch:
     steps:
       - uses: actions/checkout@v3
       - uses: r-lib/actions/setup-r@v2
@@ -133,14 +125,9 @@ jobs:
 
   # Deployment job
   deploy:
-    on:
-      push:
-        branches:
-          - main
-      # Allows you to run this workflow manually from the Actions tab
-      workflow_dispatch:
-
+    
     needs: build
+
     permissions:
       pages: write      # to deploy to Pages
       id-token: write   # to verify the deployment originates from an appropriate source
