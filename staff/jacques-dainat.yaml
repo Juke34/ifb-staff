@@ -2,9 +2,10 @@
 staffname: Jacques Dainat
 active: true
 bio:
-  Research engineer in Bioinformatics, I like to support research project via bioinformatic approaches. 
-  I enjoy elaborating on strategies to efficiently resolve problems and implementing practical solutions. 
-  I like to code, to develop pipelines (Nextflow) and to share bioinformatics knowledge.
+  Research engineer in Bioinformatics, I like to support research project via
+  bioinformatic approaches. I enjoy elaborating on strategies to efficiently
+  resolve problems and implementing practical solutions. I like to code, to
+  develop pipelines (Nextflow) and to share bioinformatics knowledge.
 
 
 email: jacques.dainat@ird.fr
@@ -16,7 +17,7 @@ keywords:
   - iTrop
   - high-performance computing
 type: staff
-category: 
+category:
   - software
   - genomics
 phone: +33 (0)00 00 00 00

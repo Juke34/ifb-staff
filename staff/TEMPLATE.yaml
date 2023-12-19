@@ -29,7 +29,7 @@ phone: xxx-xxx xx xx
 #
 # Use "city:" to say what city your main official workplace is
 # located in.  This is a list for people that are genuinely working
-# in different places. 
+# in different places.
 #
 city:
   - Paris
@@ -38,7 +38,7 @@ workplace: XXX University
 #
 affiliation: CNRS/INRAE/etc
 #
-# The IFB facility that you are part of.  It should be one of 
+# The IFB facility that you are part of.  It should be one of
 # list available here: https://www.france-bioinformatique.fr/plateformes/
 #
 facility: IFB-Core
@@ -57,7 +57,7 @@ homepage:
 # Use "bibtex:" only if you have a separate BibTeX file in the
 # "publications" subdirectory.
 #
-#bibtex: TEMPLATE.bib
+# bibtex: TEMPLATE.bib
 #
 # If you have an ORCID ID ("NNNN-NNNN-NNNN-NNNN")
 #
