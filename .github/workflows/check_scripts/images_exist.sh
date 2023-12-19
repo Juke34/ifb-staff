@@ -3,9 +3,7 @@
 cd "$( git rev-parse --show-toplevel )" || exit
 
 awk '/^[[:blank:]]*image: / {
-    imgpath = FILENAME
-    sub("[^/]*$", "img/" $2, imgpath)
-    print FILENAME, imgpath
+    print FILENAME, "img/"$2
 }' staff/*.yaml |
 {
     success=true
