@@ -1,0 +1,117 @@
+name: build
+on:
+  push:
+    branches:
+      - master
+jobs:
+  rmd-render-job:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: r-lib/actions/setup-r@v2
+      - uses: r-lib/actions/setup-pandoc@v2
+      - name: Install linux dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install libxml2-dev libssl-dev libcurl4-openssl-dev libudunits2-dev libopenblas-base imagemagick
+
+      - name: Check R installation and variables
+        run: |
+          Rscript -e "print('R installation works!')"
+          echo "Github actor: ${GITHUB_ACTOR}"
+          echo "Github repository: ${GITHUB_REPOSITORY}"
+          echo "Folder contents at $(pwd):"
+          ls -lh
+
+      - name: Cache R packages
+        id: cache-rp
+        uses: actions/cache@v3
+        with:
+          path: "/home/runner/work/_temp/Library"
+          key: ${{ runner.os }}-cache-rp
+
+      - name: Install R dependencies
+        if: steps.cache-rp.outputs.cache-hit != 'true'
+        run: |
+          Rscript -e 'install.packages(c("yaml","knitr","rmarkdown","purrr","DT"))'
+          echo "R directory size:"
+          du -sh /home/runner/work/_temp/Library
+
+      - name: Process images
+        run: |
+          # image processing using imagick convert
+          # crops to centered square and rescales to 100px x 100px
+          # masks to circular png
+
+          convert --version
+
+          if [[ ! -d img ]]
+            then
+              echo >&2 "Directory img doesn't exist."; exit 1;
+            fi
+
+          if [[ -d scaled ]]
+            then
+             rm -rf scaled
+             mkdir scaled
+            else
+             mkdir scaled
+            fi
+
+          # centered square crop
+          size='%[fx: w>h ? h : w ]'
+          offset_x='%[fx: w>h ? (w-h)/2 : 0 ]'
+          offset_y='%[fx: w>h ? 0 : (h-w)/2 ]'
+          viewport="${size}x${size}+${offset_x}+${offset_y}"
+
+          for i in img/*g
+            do
+              fname=$(basename $i | sed 's/\(^[a-z|-]\+\)\(.*$\)/\1.png/g')
+              convert $i  -set option:distort:viewport "$viewport" -filter point -distort SRT 0 +repage -adaptive-resize 100x100 scaled/${fname}
+              convert -size 100x100 xc:none -fill scaled/${fname} -draw "circle 50,50 50,1" scaled/${fname}
+            done
+
+          echo "Folder contents at $(pwd):"
+          ls -lh
+
+          echo "Folder contents at $(pwd)/scaled:"
+          ls -lh ./scaled/
+
+
+      - name: Render page
+        run: |
+          # Render website
+          Rscript -e "rmarkdown::render('index.Rmd')"
+          echo "Folder contents at $(pwd):"
+          ls -lh
+
+
+      - name: Pull staff-finder gh-pages, add contents, push
+        run: |
+          # Clone gh-pages branch
+          git clone "https://${{ secrets.TOKEN }}@github.com/NBISweden/staff-finder.git" --branch gh-pages --single-branch stafffinder
+
+          cd stafffinder
+          git config --global user.email "do_not_email@example.com"
+          git config --global user.name "gh_action"
+
+          echo "Folder contents at $(pwd):"
+          ls -lh
+
+          git rm -r .
+          git commit -m "Old files deleted."
+
+          # Copy repo files to gh-pages
+          cp index.html .
+          cp -R index_files .
+          cp -R assets .
+          cp -R scaled .
+
+          echo "Folder contents at $(pwd):"
+          ls -lh
+
+          # Git commit and push changes back
+          git add .
+          git commit -m "Updated contents at $(date +%Y%m%d-%H%M%S)"
+          git remote show origin
+          git push origin

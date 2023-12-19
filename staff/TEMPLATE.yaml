@@ -1,0 +1,91 @@
+# Please fill in your details and delete comments.
+# Please consider trying to keep this file up to date.
+#
+# This template contains dummy data for a fictional person,
+# "Jhon Doe".
+#
+# The line saying "---" should be the first line of your file.
+# No line should be longer than 80 characters.
+# Your file should be called "<firstname>-<lastname>.yml".
+---
+#
+# Your real name, the exact way that you want it displayed.
+#
+staffname: Jhon Doe
+#
+# Most people will have "type: staff", but some may be "affiliate".
+#
+type: staff
+#
+# Change to "true"
+#
+active: false
+#
+# Your email address.
+#
+email: jhon.doe@ifb.fr
+#
+phone: xxx-xxx xx xx
+#
+# Use "city:" to say what city your main official workplace is
+# located in.  This is a list for people that are genuinely working
+# in different places. 
+#
+city:
+  - Paris
+#
+workplace: XXX University
+#
+affiliation: CNRS/INRAE/etc
+#
+# The IFB facility that you are part of.  It should be one of 
+# list available here: https://www.france-bioinformatique.fr/plateformes/
+#
+facility: IFB-Core
+#
+# Current categories (pick one):
+# annotation, development, genomics, management, metabolomics,
+# proteomics, software, statistics, structure, systems biology,
+# dataservices, administration
+#
+category: development
+#
+# Page to link to from your profile page (rarely used).
+#
+homepage:
+#
+# Use "bibtex:" only if you have a separate BibTeX file in the
+# "publications" subdirectory.
+#
+bibtex: TEMPLATE.bib
+#
+# If you have an ORCID ID ("NNNN-NNNN-NNNN-NNNN")
+#
+orcid: 0000-0001-1234-123X
+#
+# The name of an image file in the "img" subdirectory, no more than
+# about 400 pixels wide and less than 200 KB in file size.
+#
+image: jhon-doe.png
+#
+# A list of lowercase keywords relevant to you.
+#
+keywords:
+  - genomics
+  - cancer genomics
+  - unix
+  - r
+  - rnaseq
+#
+# "role:" is the role that you play within your infrastructure.
+#
+role: Bioinformatician
+#
+bio:
+  Short biographical text here.
+
+
+  Paragraphs are separated by two empty lines.
+
+
+  No line is longer than 80 characters.

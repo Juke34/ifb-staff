@@ -1,0 +1,174 @@
+---
+title: "<b>IFB</b> | Staff"
+output:
+  html_document:
+      toc: false
+      number_sections: false
+      theme: flatly
+      highlight: tango
+      df_print: paged
+      code_folding: "none"
+      self_contained: false
+      keep_md: false
+      encoding: 'UTF-8'
+      css: assets/styles.css
+---
+
+<div class="row">
+<img src="assets/logo.png" alt="logo" class="logo">
+</div>
+
+```{r,include=TRUE,echo=FALSE}
+library(knitr)
+library(rmarkdown)
+library(yaml)
+library(purrr)
+library(DT)
+
+# fontawesome dependency
+fa <- rmarkdown::html_dependency_font_awesome()
+fa$attachment <- "fonts/fontawesome-webfont.ttf"
+htmltools::tagList(fa)
+
+# read data
+f <- list.files(".",pattern="*.yml",full.names=T)
+f <- f[!grepl("TEMPLATE",f)]
+f1 <- lapply(f,read_yaml)
+
+# collapse fields with multiple values
+fnames <- sub(".yml","",basename(f))
+for(i in 1:length(f1)) {
+  for(j in 1:length(f1[[i]])) {
+    if(length(f1[[i]][[j]])>1) f1[[i]][[j]] <- paste(f1[[i]][[j]],collapse=", ")
+  }
+  f1[[i]]["fname"] <- fnames[i]
+}
+
+# keep only active profiles
+f1 <- f1[sapply(f1,"[[","active")==T]
+
+# convert to dataframe
+dfr <- f1 %>% {
+  data.frame(name = map_chr(.,"staffname",.null=NA_character_),
+              keywords = map_chr(.,"keywords",.null=NA_character_),
+              category = map_chr(.,"category",.null=NA_character_),
+              city = map_chr(.,"city",.null=NA_character_),
+              affiliation = map_chr(.,"affiliation",.null=NA_character_),
+              facility = map_chr(.,"facility",.null=NA_character_),
+              image = sub("[.].+$","",map_chr(.,"image",.null=NA_character_)),
+              fname = map_chr(.,"fname",.null=NA_character_),
+             stringsAsFactors=F)
+}
+dfr$keywords <- tolower(dfr$keywords)
+
+# add name style
+dfr$name <- paste0("<span style='font-weight:bold;'>",dfr$name,"</span>")
+# add image paths and link to profile
+dfr$profile <- paste0("<div class='profile'><a>","<img src='scaled/",dfr$image,".png'></a></div>")
+# replace missing image paths with default placeholder
+dfr$profile[!sapply(paste0("scaled/",dfr$image,".png"),file.exists)] <- paste0("<div class='profile'>","<img src='scaled/default.png'></div>")
+
+dfr$fname <- NULL
+dfr$img <- NULL
+dfr <- dfr[,c("profile","name","category","facility","affiliation","city","keywords")]
+```
+
+```{r,include=TRUE,echo=FALSE}
+col_category <- c('#A6CEE3','#1F78B4','#B2DF8A','#33A02C','#FB9A99','#E31A1C','#FDBF6F','#FF7F00','#CAB2D6','#6A3D9A','#8DD3C7','#B15928','#CA527D','#CACE53','#58763C')
+col_affiliation <- c('#0073C2FF','#EFC000FF','#868686FF','#CD534CFF','#7AA6DCFF','#003C67FF','#8F7700FF','#3B3B3BFF','#A73030FF','#4A6990FF","#3B4992FF','#EE0000FF','#008B45FF','#631879FF','#008280FF','#BB0021FF','#5F559BFF','#A20056FF','#808180FF','#1B1919FF')
+col_city <- c('#1B9E77','#D95F02','#7570B3','#E7298A','#66A61E','#E6AB02','#A6761D','#666666')
+col_facility <- c('#017A4AFF','#3D98D3FF','#FF363CFF','#7559A2FF','#794924FF','#8CDB5EFF','#D6D6D6FF','#FB8C00FF')
+
+if(length(col_category) < length(levels(factor(dfr$category)))) warning("Number of colours less than number of category.")
+if(length(col_affiliation) < length(levels(factor(dfr$affiliation)))) warning("Number of colours less than number of affiliation.")
+if(length(col_city) < length(levels(factor(dfr$city)))) warning("Number of colours less than number of city.")
+if(length(col_facility) < length(levels(factor(dfr$facility)))) warning("Number of colours less than number of facility.")
+
+col_category <- col_category[1:length(levels(factor(dfr$category)))]
+col_affiliation <- col_affiliation[1:length(levels(factor(dfr$affiliation)))]
+col_city <- col_city[1:length(levels(factor(dfr$city)))]
+col_facility<- col_facility[1:length(levels(factor(dfr$facility)))]
+
+col_category2 <- col_category[factor(dfr$category)]
+col_affiliation2 <- col_affiliation[factor(dfr$affiliation)]
+col_city2 <- col_city[factor(dfr$city)]
+col_facility2 <- col_facility[factor(dfr$facility)]
+
+dfr$category <- paste0('<span class="color-tag" style="background-color:',col_category2,';">',dfr$category,'</span>')
+dfr$affiliation <- paste0('<span class="color-tag"  style="background-color:',col_affiliation2,';">',dfr$affiliation,'</span>')
+dfr$city <- paste0('<span class="color-tag" style="background-color:',col_city2,';">',dfr$city,'</span>')
+dfr$facility <- paste0('<span class="color-tag" style="background-color:',col_facility2,';">',dfr$facility,'</span>')
+```
+
+
+<div class="row table-staff">
+```{r,echo=FALSE,warning=FALSE,message=FALSE}
+datatable(dfr,
+      escape=FALSE,
+      selection="none",
+      class="hover",
+      style="bootstrap",
+      #filter="top",
+      extensions="Responsive",
+      options=list(
+        dom="ftipr",
+        pageLength=10,
+        searchHighlight=TRUE,
+        autoWidth=FALSE,
+        columnDefs=list(list(width="60px",targets=1),
+                        list(width="150px",targets=2),
+                        list(width="250px",targets=7))))
+```
+</div>
+
+<hr/>
+
+<div>
+<span style="float:left; vertical-align:middle">
+<b>`r format(Sys.Date(),format="%Y")`</b> • IFB
+</span>
+<span style="float:right; vertical-align:middle">
+<p style="text-align: left; font-size: small;">
+Last Updated: <i class="fa fa-calendar" aria-hidden="true"></i> `r format(Sys.time(),format='%d-%b-%Y')` at <i class="fa fa-clock-o" aria-hidden="true"></i> `r format(Sys.time(),format='%H:%M')`.
+</p>
+</span>
+</div>
+
+```{r,eval=FALSE,include=FALSE}
+rmarkdown::render("index.Rmd")
+```
+
+```{sh,eval=FALSE,include=FALSE}
+# ImageMagick 6.9.7-4 Q16 x86_64 20170114
+# image processing using imagick convert
+# run in staffinfo root
+# crops to centered square and rescales to 100px x 100px
+# converts to circular png
+
+if [[ ! -d img ]]
+  then
+    echo >&2 "Directory img doesn't exist."; exit 1;
+  fi
+
+if [[ -d scaled ]]
+  then
+   rm -rf scaled
+   mkdir scaled
+  else
+   mkdir scaled
+  fi
+
+# centered square crop
+size='%[fx: w>h ? h : w ]'
+offset_x='%[fx: w>h ? (w-h)/2 : 0 ]'
+offset_y='%[fx: w>h ? 0 : (h-w)/2 ]'
+viewport="${size}x${size}+${offset_x}+${offset_y}"
+
+for i in img/*g
+  do
+    fname=$(basename $i | sed 's/\(^[a-z|-]\+\)\(.*$\)/\1.png/g')
+    #fname=$(basename $i)
+    convert $i  -set option:distort:viewport "$viewport" -filter point -distort SRT 0 +repage -adaptive-resize 100x100 scaled/${fname}
+    convert -size 100x100 xc:none -fill scaled/${fname} -draw "circle 50,50 50,1" scaled/${fname}
+  done
+```
