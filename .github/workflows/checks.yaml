@@ -1,11 +1,14 @@
 ---
 
 name: Perform some sanity checks
-on: push
-  paths:
-    - "staff/**.yml"
-    - "staff/**.yaml"
-on: pull_request_target
+on: 
+  push:
+    paths:
+      - "staff/**.yml"
+      - "staff/**.yaml"
+  pull_request_target:
+      - "staff/**.yml"
+      - "staff/**.yaml"
 
 
 jobs:
