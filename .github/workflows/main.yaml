@@ -1,4 +1,7 @@
-name: build and deploy
+name: check, build and deploy
+
+runs-on: ubuntu-22.04
+
 on:
   push:
     branches:
@@ -15,8 +18,7 @@ concurrency:
 jobs:
 
   yaml_checks:
-    runs-on: ubuntu-latest
-    
+   
     steps:
       - name: Get the code
         uses: actions/checkout@v2
@@ -33,7 +35,9 @@ jobs:
               exit "$fail"'
 
   build:
-    runs-on: ubuntu-22.04
+    
+    needs: yaml_checks
+
     steps:
       - uses: actions/checkout@v3
       - uses: r-lib/actions/setup-r@v2
@@ -137,8 +141,6 @@ jobs:
     environment:
       name: github-pages
     #  url: ${{ steps.deployment.outputs.page_url }}
-
-    runs-on: ubuntu-22.04
 
     steps:
 
