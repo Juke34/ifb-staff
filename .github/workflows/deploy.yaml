@@ -21,17 +21,9 @@ on:
 
 jobs:
 
-  run_on_workflow_build_success:
+  deploy:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-22.04
-    steps:
-      - name: Run on workflow build success
-        run: echo "Workflow build completes successfully"
-
-  # Deployment job
-  deploy:
-    runs-on: ubuntu-22.04
-    needs: run_on_workflow_build_success
 
     permissions:
       pages: write      # to deploy to Pages
