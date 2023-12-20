@@ -20,14 +20,8 @@ on:
 #  cancel-in-progress: false
 
 jobs:
-  run_on_workflow_build_success:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Run on workflow build success
-        run: echo "Workflow build completes successfully"
-  
   download_context_artifact:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-22.04
     steps:
       - name: 'Download artifact'
@@ -59,15 +53,15 @@ jobs:
 
   deploy:
     runs-on: ubuntu-22.04
-  
+    needs: download_context_artifact
     permissions:
       pages: write      # to deploy to Pages
       id-token: write   # to verify the deployment originates from an appropriate source
       contents: write
 
     # Deploy to the github-pages environment
-    environment:
-      name: github-pages
+    #environment:
+    #  name: github-pages
     #  url: ${{ steps.deployment.outputs.page_url }}
     
     steps:
