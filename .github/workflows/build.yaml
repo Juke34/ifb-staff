@@ -12,23 +12,6 @@ on:
 
 jobs:
 
-  yaml_checks:
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Get the code
-        uses: actions/checkout@v2
-
-      - name: Install tools
-        run: 'sudo apt-get install yamllint imagemagick'
-
-      - name: Run check scripts
-        run: 'fail=0;
-              for p in .github/workflows/check_scripts/*.sh; do
-                echo "==> $p";
-                "$p" || fail=1;
-              done;
-              exit "$fail"'
-
   build:
     runs-on: ubuntu-22.04
     needs: yaml_checks

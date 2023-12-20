@@ -18,7 +18,7 @@ on:
 
 jobs:
 
-  run_on_workflow_a_success:
+  run_on_workflow_build_success:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-22.04
     steps:
