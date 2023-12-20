@@ -1,9 +1,9 @@
-name: check, build and deploy
+name: build and deploy
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: [check]
+    types: [completed]
   pull_request:
     branches:
       - main
