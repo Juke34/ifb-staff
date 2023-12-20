@@ -14,7 +14,6 @@ jobs:
 
   build:
     runs-on: ubuntu-22.04
-    needs: yaml_checks
 
     steps:
       - uses: actions/checkout@v3
