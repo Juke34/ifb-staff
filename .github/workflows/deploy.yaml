@@ -4,19 +4,26 @@ on:
   workflow_run:
     workflows: [build]
     types: [completed]
-  push:
-    branches:
-      - main
+ # push:
+ #   branches:
+ #     - main
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+#concurrency:
+#  group: "pages"
+#  cancel-in-progress: false
 
 jobs:
+
+  run_on_workflow_a_success:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Run on workflow build success
+        run: echo "Workflow build completes successfully"
 
   # Deployment job
   deploy:
