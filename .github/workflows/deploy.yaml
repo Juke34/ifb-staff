@@ -2,7 +2,7 @@ name: deploy
 
 on:
   workflow_run:
-    workflows: [workflow_build]
+    workflows: [build]
     types: [completed]
   pull_request:
     branches:
@@ -20,11 +20,46 @@ on:
 #  cancel-in-progress: false
 
 jobs:
-
-  deploy:
+  run_on_workflow_build_success:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-22.04
+    steps:
+      - name: Run on workflow build success
+        run: echo "Workflow build completes successfully"
+  
+  download_context_artifact:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: 'Download artifact'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            let allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               run_id: context.payload.workflow_run.id,
+            });
+            
+            let matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
+              return artifact.name == "context.json"
+            })[0];
+            
+            let download = await github.rest.actions.downloadArtifact({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               artifact_id: matchArtifact.id,
+               archive_format: 'zip',
+            });
+            
+            let fs = require('fs');
+            fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/context.zip`, Buffer.from(download.data));
+            
+      - name: 'Unzip artifact'
+        run: unzip context.zip
 
+  deploy:
+    runs-on: ubuntu-22.04
+  
     permissions:
       pages: write      # to deploy to Pages
       id-token: write   # to verify the deployment originates from an appropriate source
@@ -34,7 +69,7 @@ jobs:
     environment:
       name: github-pages
     #  url: ${{ steps.deployment.outputs.page_url }}
-
+    
     steps:
 
       - uses: actions/download-artifact@v3
