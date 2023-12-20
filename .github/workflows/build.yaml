@@ -121,32 +121,3 @@ jobs:
             index_files 
             assets 
             scaled 
-
-  # Deployment job
-  deploy:
-    runs-on: ubuntu-22.04
-    needs: build
-
-    permissions:
-      pages: write      # to deploy to Pages
-      id-token: write   # to verify the deployment originates from an appropriate source
-      contents: write
-
-    # Deploy to the github-pages environment
-    environment:
-      name: github-pages
-    #  url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-
-      - uses: actions/download-artifact@v3
-        with:
-          name: ifb-staff-artifact
-
-     # - uses: actions/deploy-pages@v3
-     #   with:
-     #     artifact_name: ifb-staff-artifact
-      - uses: peaceiris/actions-gh-pages@v3.9.3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
