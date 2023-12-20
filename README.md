@@ -1,6 +1,6 @@
 # Staff Finder [![gh-actions-build-status](https://github.com/Juke34/ifb-staff/workflows/build/badge.svg)](https://github.com/Juke34/ifb-staff/actions?workflow=build)
 
-NBIS interactive staff info page. http://nbisweden.github.com/staff-finder/
+IFB interactive staff info page. https://juke34.github.io/ifb-staff/
 
 # IFB staff
 
