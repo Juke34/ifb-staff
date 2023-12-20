@@ -1,6 +1,6 @@
 ---
 
-name: Perform some sanity checks
+name: check
 on: 
   push:
     paths:
