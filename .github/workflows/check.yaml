@@ -1,14 +1,8 @@
----
-
-name: Perform some sanity checks
+name: check
 on: 
   push:
     paths:
       - "staff/**.yaml"
-  pull_request:
-    paths:
-      - "staff/**.yaml"
-
 
 jobs:
   yaml_checks:
