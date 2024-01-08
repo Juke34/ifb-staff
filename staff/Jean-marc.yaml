@@ -1,0 +1,21 @@
+---
+staffname: Jean Marc
+active: true
+bio:
+  I'm born... I did... I like...
+
+
+email: jean.marc@cnrs.fr
+image: thispersondoesnotexist2.jpg
+role: Bioinformatician
+keywords:
+  - Autre
+type: Lambda
+category:
+  - managment
+phone: +33 (0)00 00 00 00
+city:
+  - Paris
+affiliation: Test
+workplace: Life is Good institute
+facility: LePuy
