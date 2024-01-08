@@ -10,7 +10,7 @@ image: thispersondoesnotexist2.jpg
 role: Bioinformatician
 keywords:
   - Autre
-type: Lambda
+type: Lambd
 category:
   - managment
 phone: +33 (0)00 00 00 00
