@@ -100,7 +100,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: github-pages
+          name: ifb-staff-artifact
           path: |
             index.html
             index_files 
@@ -126,13 +126,9 @@ jobs:
 
       - uses: actions/download-artifact@v4
         with:
-          name: github-pages
+          name: ifb-staff-artifact
 
-      - uses: actions/deploy-pages@v4
+      - uses: peaceiris/actions-gh-pages@v3.9.3
         with:
-          artifact_name: ifb-staff-artifact
-     
-      #- uses: peaceiris/actions-gh-pages@v3.9.3
-      #  with:
-      #    github_token: ${{ secrets.GITHUB_TOKEN }}
-      #    publish_dir: .
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
