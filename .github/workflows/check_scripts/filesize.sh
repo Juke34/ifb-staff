@@ -2,7 +2,7 @@
 
 cd "$( git rev-parse --show-toplevel )" || exit
 
-stat -c '%s %n' img/* |
+stat -c '%s %n' trombinoscope/photo/* |
 {
     success=true
 
