@@ -57,9 +57,9 @@ jobs:
 
           convert --version
 
-          if [[ ! -d img ]]
+          if [[ ! -d trombinoscope/photo ]]
             then
-              echo >&2 "Directory img doesn't exist."; exit 1;
+              echo >&2 "Directory trombinoscope/photo doesn't exist."; exit 1;
             fi
 
           if [[ -d scaled ]]
@@ -76,7 +76,7 @@ jobs:
           offset_y='%[fx: w>h ? 0 : (h-w)/2 ]'
           viewport="${size}x${size}+${offset_x}+${offset_y}"
 
-          for i in img/*g
+          for i in trombinoscope/photo/*g
             do
               fname=$(basename $i | sed 's/\(^[a-z0-9|-]\+\)\(.*$\)/\1.png/g')
               convert $i  -set option:distort:viewport "$viewport" -filter point -distort SRT 0 +repage -adaptive-resize 100x100 scaled/${fname}
