@@ -3,6 +3,7 @@
 IFB interactive staff info page. https://juke34.github.io/ifb-staff/
 
 ---------------------------
+
 ## Table of Contents
 
    * [Description of this repo](#description-of-this-repo)
