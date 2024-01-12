@@ -1,9 +1,6 @@
-name: deploy
+name: buid_deploy
 
 on:
-  workflow_run:
-    workflows: [build]
-    types: [completed]
   push:
     branches:
       - main
@@ -17,49 +14,130 @@ on:
 #  cancel-in-progress: false
 
 jobs:
-  download_context_artifact:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-22.04
-    steps:
-      - name: 'Download artifact'
-        uses: actions/github-script@v6
-        with:
-          script: |
-            let allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
-               owner: context.repo.owner,
-               repo: context.repo.repo,
-               run_id: context.payload.workflow_run.id,
-            });
-            
-            let matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
-              return artifact.name == "context.json"
-            })[0];
-            
-            let download = await github.rest.actions.downloadArtifact({
-               owner: context.repo.owner,
-               repo: context.repo.repo,
-               artifact_id: matchArtifact.id,
-               archive_format: 'zip',
-            });
-            
-            let fs = require('fs');
-            fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/context.zip`, Buffer.from(download.data));
-            
-      - name: 'Unzip artifact'
-        run: unzip context.zip
+name: build
 
+on:
+  workflow_run:
+    workflows: [check]
+    types: [completed]
+  pull_request:
+    branches:
+      - main
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  build:
+    runs-on: ubuntu-22.04
+    
+    steps:
+      - uses: actions/checkout@v3
+      - uses: r-lib/actions/setup-r@v2
+      - uses: r-lib/actions/setup-pandoc@v2
+      - name: Install linux dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install libxml2-dev libssl-dev libcurl4-openssl-dev libudunits2-dev libopenblas-base imagemagick
+
+      - name: Check R installation and variables
+        run: |
+          Rscript -e "print('R installation works!')"
+          echo "Github actor: ${GITHUB_ACTOR}"
+          echo "Github repository: ${GITHUB_REPOSITORY}"
+          echo "Folder contents at $(pwd):"
+          ls -lh
+
+      - name: Cache R packages
+        id: cache-rp
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-cache-rp
+
+      - name: Install R dependencies
+        if: steps.cache-rp.outputs.cache-hit != 'true'
+        run: |
+          Rscript -e 'install.packages(c("yaml","knitr","rmarkdown","purrr","DT"))'
+          echo "R directory size:"
+          du -sh /home/runner/work/_temp/Library
+
+      - name: Process images
+        run: |
+          # image processing using imagick convert
+          # crops to centered square and rescales to 100px x 100px
+          # masks to circular png
+
+          convert --version
+
+          if [[ ! -d img ]]
+            then
+              echo >&2 "Directory img doesn't exist."; exit 1;
+            fi
+
+          if [[ -d scaled ]]
+            then
+             rm -rf scaled
+             mkdir scaled
+            else
+             mkdir scaled
+            fi
+
+          # centered square crop
+          size='%[fx: w>h ? h : w ]'
+          offset_x='%[fx: w>h ? (w-h)/2 : 0 ]'
+          offset_y='%[fx: w>h ? 0 : (h-w)/2 ]'
+          viewport="${size}x${size}+${offset_x}+${offset_y}"
+
+          for i in img/*g
+            do
+              fname=$(basename $i | sed 's/\(^[a-z0-9|-]\+\)\(.*$\)/\1.png/g')
+              convert $i  -set option:distort:viewport "$viewport" -filter point -distort SRT 0 +repage -adaptive-resize 100x100 scaled/${fname}
+              convert -size 100x100 xc:none -fill scaled/${fname} -draw "circle 50,50 50,1" scaled/${fname}
+            done
+
+          echo "Folder contents at $(pwd):"
+          ls -lh
+
+          echo "Folder contents at $(pwd)/scaled:"
+          ls -lh ./scaled/
+
+
+      - name: Render page
+        run: |
+          # Render website
+          Rscript -e "rmarkdown::render('index.Rmd')"
+          echo "Folder contents at $(pwd):"
+          ls -lh
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ifb-staff-artifact
+          path: |
+            index.html
+            index_files 
+            assets 
+            scaled 
+ 
+  
   deploy:
     runs-on: ubuntu-22.04
-    needs: download_context_artifact
+    
+    needs: build
     permissions:
       pages: write      # to deploy to Pages
       id-token: write   # to verify the deployment originates from an appropriate source
       contents: write
 
     # Deploy to the github-pages environment
-    #environment:
-    #  name: github-pages
-    #  url: ${{ steps.deployment.outputs.page_url }}
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     
     steps:
 
@@ -67,10 +145,11 @@ jobs:
         with:
           name: ifb-staff-artifact
 
-     # - uses: actions/deploy-pages@v3
-     #   with:
-     #     artifact_name: ifb-staff-artifact
-      - uses: peaceiris/actions-gh-pages@v3.9.3
+      - uses: actions/deploy-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
+          artifact_name: ifb-staff-artifact
+     
+      #- uses: peaceiris/actions-gh-pages@v3.9.3
+      #  with:
+      #    github_token: ${{ secrets.GITHUB_TOKEN }}
+      #    publish_dir: .
