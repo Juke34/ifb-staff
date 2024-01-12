@@ -2,6 +2,8 @@
 
 IFB interactive staff info page. https://juke34.github.io/ifb-staff/
 
+<img src="assets/example.png" width="600" height="400" />
+
 ---------------------------
 
 ## Table of Contents
