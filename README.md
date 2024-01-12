@@ -6,16 +6,25 @@ IFB interactive staff info page. https://juke34.github.io/ifb-staff/
 
 ## Content
 
-Information about IFB staff.
+This repository contains data used to generate the interactive page.
+
+IFB-staff
+|___ assests           # folder containing logo and style sheet for page rendering
+|___ trombinoscope     # folder containing information related to individuals
+|    |__ photo         # folder with photo of individuals. Must be firstname-lastname.jpg 
+|    |__ publication   # folder with publication of the individuals. Must be firstname-lastname.bib
+|    |__ staff         # folder with description of the individuals. Must be firstname-lastname.yaml
+|___ index.Rmd         # Markdown file executed by github actions to generate the the interactive page.  
+
 
 ## How this information is used
 
 The master branch contains the GitHub action script that runs all the tasks and the Rmarkdown document that ends up as the rendered HTML page. The rendered material is made available publicly on the gh-pages branch.
-The material used as input is the YAML files avaiable in `/staff`. Each YAML file is parsed 
+The material used as input is the YAML files avaiable in `trombinoscope/staff`. Each YAML file is parsed 
 and, provided the setting `active:` is set to `true`, the
 corresponding staff member is added to the staff listing, and a staff page is generated.
 
-This web page is rebuilt automatically when any changes to the `staff` master repo is made.
+This web page is rebuilt automatically when any changes to the master repo is made.
 
 **Build**  
 
