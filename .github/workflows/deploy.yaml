@@ -100,7 +100,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ifb-staff-artifact
+          name: github-pages
           path: |
             index.html
             index_files 
@@ -126,7 +126,7 @@ jobs:
 
       - uses: actions/download-artifact@v4
         with:
-          name: ifb-staff-artifact
+          name: github-pages
 
       - uses: actions/deploy-pages@v4
         with:
