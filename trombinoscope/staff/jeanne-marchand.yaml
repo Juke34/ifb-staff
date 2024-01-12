@@ -1,21 +1,21 @@
 ---
-staffname: Jean Marc
+staffname: Jeanne Marchand
 active: true
 bio:
   I'm born... I did... I like...
 
 
-email: jean.marc@cnrs.fr
-image: thispersondoesnotexist2.jpg
-role: Bioinformatician2
+email: jeanne.marchand@cnrs.fr
+image: thispersondoesnotexist3.jpg
+role: Bioinformatician
 keywords:
-  - Autre
+  - IT
 type: Lambd
 category:
-  - managment
+  - development
 phone: +33 (0)00 00 00 01
 city:
-  - Paris
+  - Montpellier
 affiliation: Test
 workplace: Life is Good institute
 facility: LePuy
