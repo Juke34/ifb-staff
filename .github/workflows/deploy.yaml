@@ -120,16 +120,15 @@ jobs:
     # Deploy to the github-pages environment
     environment:
       name: github-pages
-    #  url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }}
     
     steps:
-
       - uses: actions/download-artifact@v4
         with:
           name: ifb-staff-artifact
 
-
       - uses: actions/deploy-pages@v4
+        id : deployment
         with:
           artifact_name: ifb-staff-artifact
      
