@@ -1,9 +1,14 @@
 name: check
+
 on: 
   push:
     paths:
       - "staff/**.yaml"
-
+      
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+  
 jobs:
   yaml_checks:
     runs-on: ubuntu-latest
