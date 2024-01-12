@@ -3,8 +3,8 @@
 cd "$( git rev-parse --show-toplevel )" || exit
 
 awk '/^[[:blank:]]*image: / {
-    print FILENAME, "img/"$2
-}' staff/*.yaml |
+    print FILENAME, " trombinoscope/photo/"$2
+}'  trombinoscope/staff/*.yaml |
 {
     success=true
 
