@@ -14,7 +14,8 @@ def validate_category(d,f):
     return True 
 
 def check_bibtex_file(d, f):
-    p = pathlib.Path(f).parent / 'publications'
+    p = pathlib.Path(f).parent.parent / 'publication'
+    print(p)
     if 'bibtex' in d and d['bibtex']:
         return (p / d['bibtex']).exists()
     return True
