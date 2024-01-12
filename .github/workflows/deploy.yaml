@@ -120,7 +120,7 @@ jobs:
     # Deploy to the github-pages environment
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    #  url: ${{ steps.deployment.outputs.page_url }}
     
     steps:
 
@@ -128,7 +128,7 @@ jobs:
         with:
           name: ifb-staff-artifact
 
-      - uses: actions/deploy-pages@v3
+      - uses: actions/deploy-pages@v4
         with:
           artifact_name: ifb-staff-artifact
      
